@@ -1,4 +1,5 @@
-@extends('nav')
+@extends('master')
+@section('title', 'Employee')
 @section('content')
 <div class="flex justify-end items-center mb-6">
     <a href="{{ route('employees.create') }}" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">

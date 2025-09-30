@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App-Pegawai</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <!-- Sidebar -->
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-40 h-screen transition-transform -translate-x-full sm:translate-x-0 shadow-lg"
+        aria-label="Sidebar">
+        <div class="h-full px-3 py-6 flex flex-col justify-between bg-black rounded-r-2xl">
+            <div class="text-center text-white font-bold mb-5 text-2xl">
+                <h1>@yield('title', 'App Pegawai')</h1>
+            </div>
+            <ul class="space-y-3 font-medium">
+                <!-- Employee -->
+                <li>
+                    <a href="{{ route('employees.index') }}"
+                        class="flex flex-col items-center p-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200 group">
+                        <svg class="w-7 h-7 mb-1" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H6Zm7.25-2.095c.478-.86.75-1.85.75-2.905a5.973 5.973 0 0 0-.75-2.906 4 4 0 1 1 0 5.811ZM15.466 20c.34-.588.535-1.271.535-2v-1a5.978 5.978 0 0 0-1.528-4H18a4 4 0 0 1 4 4v1a2 2 0 0 1-2 2h-4.535Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm">Employee</span>
+                    </a>
+                </li>
+                <!-- Departement -->
+                <li>
+                    <a href="{{ url('/departements') }}"
+                        class="flex flex-col items-center p-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200 group">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm">Departement</span>
+                    </a>
+                </li>
+                <!-- Attendance -->
+                <li>
+                    <a href="{{ url('/attendances') }}"
+                        class="flex flex-col items-center p-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200 group">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Z" />
+                            <path fill-rule="evenodd" d="M11 7V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm4.707 5.707a1 1 0 0 0-1.414-1.414L11 14.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm">Attendance</span>
+                    </a>
+                </li>
+                <!-- Report -->
+                <li>
+                    <a href="{{ url('/reports') }}"
+                        class="flex flex-col items-center p-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200 group">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M20 10H4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8ZM9 13v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
+                            <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Z" />
+                        </svg>
+                        <span class="text-sm">Report</span>
+                    </a>
+                </li>
+                <!-- Settings -->
+                <li>
+                    <a href="{{ url('/settings') }}"
+                        class="flex flex-col items-center p-3 text-gray-300 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200 group">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                        </svg>
+                        <span class="text-sm">Setting</span>
+                    </a>
+                </li>
+            </ul>
+            <footer class="mt-auto text-gray-400 text-center text-xs">
+                <p>&copy; {{ date('Y') }} App Pegawai</p>
+            </footer>
+        </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="p-6 sm:ml-40">
+        <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm">
+            <main class="p-2 mt-2">
+                @yield('content')
+            </main>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-@extends('nav')
+@extends('master')
 @section('content')
 <div class="flex justify-between items-center mb-6">
     <div>

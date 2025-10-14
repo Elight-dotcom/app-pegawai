@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendance', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('karyawan_id')->constrained('employees')->onDelete('cascade');
-            $table->date('tanggal');
-            $table->time('waktu_masuk');
-            $table->time('waktu_keluar');
-            $table->ENUM('status_absensi', ['hadir', 'izin', 'sakit', 'alpha']);
+            $table->string('nama_departemen', 100);
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendance');
+        Schema::dropIfExists('departments');
     }
 };

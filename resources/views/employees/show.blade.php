@@ -13,37 +13,68 @@
 </div>
 
 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-    <div class="p-6">
-        <table class="text-left border-separate border-spacing-2">
-            <tr>
-                <th class="pr-5">Nama Lengkap</th>
-                <td>{{ $employee->nama_lengkap }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ $employee->email }}</td>
-            </tr>
-            <tr>
-                <th>No Telepon</th>
-                <td>{{ $employee->nomor_telepon }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Lahir</th>
-                <td>{{ $employee->tanggal_lahir }}</td>
-            </tr>
-            <tr>
-                <th>Alamat</th>
-                <td>{{ $employee->alamat }}</td>
-            </tr>
-            <tr>
-                <th>Tanggal Masuk</th>
-                <td>{{ $employee->tanggal_masuk }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ $employee->status }}</td>
-            </tr>
-        </table>
+    <div class="p-6 flex flex-row">
+        <div>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Employee</h2>
+            <table class="text-left border-separate border-spacing-2">
+                <tr>
+                    <th class="pr-5">Nama Lengkap</th>
+                    <td>{{ $employee->nama_lengkap }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ $employee->email }}</td>
+                </tr>
+                <tr>
+                    <th>No Telepon</th>
+                    <td>{{ $employee->nomor_telepon }}</td>
+                </tr>
+                <tr>
+                    <th>Tanggal Lahir</th>
+                    <td>{{ $employee->tanggal_lahir }}</td>
+                </tr>
+                <tr>
+                    <th>Alamat</th>
+                    <td>{{ $employee->alamat }}</td>
+                </tr>
+                <tr>
+                    <th>Tanggal Masuk</th>
+                    <td>{{ $employee->tanggal_masuk }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ $employee->status }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="border-l border-black border-1 mx-8"></div>
+
+        <div class="gap-10">
+            <div>
+                <h2 class="text-2xl font-semibold mt-4 text-gray-800">Departemen</h2>
+                <table class="text-left border-separate border-spacing-2">
+                    <tr>
+                        <th class="pr-5">Departemen</th>
+                        <td>{{ $employee->department->nama_departemen }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-semibold mt-4 text-gray-800">Jabatan</h2>
+                <table class="text-left border-separate border-spacing-2">
+                    <tr>
+                        <th class="pr-5">Jabatan</th>
+                        <td>{{ $employee->jabatan->nama_jabatan }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gaji Pokok</th>
+                        <td>{{ $employee->jabatan->gaji_pokok }}</td>
+                    </tr>
+            </div>
+            </table>
+        </div>
     </div>
 </div>
 @endsection

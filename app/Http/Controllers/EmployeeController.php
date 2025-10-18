@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -12,7 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->paginate(5);
+        $employees = Employee::with(['jabatan', 'department'])->paginate(5);
 
         return view('employees.index', compact('employees'));
     }
@@ -22,7 +24,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('employees.create');
+        $departments = Department::all();
+        $positions = Position::all();
+        return view('employees.create', compact('departments', 'positions'));
     }
 
     /**
@@ -38,6 +42,13 @@ class EmployeeController extends Controller
             'alamat' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|string|max:50',
+            'jabatan_id' => 'required|exists:positions,id',
+            'department_id' => 'required|exists:departments,id',
+        ], [
+            'required' => 'The :attribute field is required.',
+            'email' => 'The :attribute field must be a valid email address.',
+            'max' => 'The :attribute field must not exceed :max characters.',
+            'date' => 'The :attribute field must be a valid date.',
         ]);
 
         Employee::create($request->all());
@@ -50,7 +61,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Employee::find($id);
+        $employee = Employee::find($id)->with(['jabatan', 'department'])->first();
 
         return view('employees.show', compact('employee'));
     }
@@ -61,8 +72,10 @@ class EmployeeController extends Controller
     public function edit(string $id)
     {
         $employee = Employee::find($id);
+        $departments = Department::all();
+        $positions = Position::all();
 
-        return view('employees.edit', compact('employee'));
+        return view('employees.edit', compact('employee', 'departments', 'positions'));
     }
 
     /**
@@ -78,6 +91,11 @@ class EmployeeController extends Controller
             'alamat' => 'required|string|max:255',
             'tanggal_masuk' => 'required|date',
             'status' => 'required|string|max:50',
+        ], [
+            'required' => 'The :attribute field is required.',
+            'email' => 'The :attribute field must be a valid email address.',
+            'max' => 'The :attribute field must not exceed :max characters.',
+            'date' => 'The :attribute field must be a valid date.',
         ]);
 
         $employee = Employee::find($id);

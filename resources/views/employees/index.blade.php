@@ -2,6 +2,11 @@
 @section('title', 'Employee')
 @section('content')
 <div class="flex justify-between items-center mb-6">
+    <div id="search">
+        <form action="{{ route('employees.index') }}" method="get">
+            <input name='search' autocomplete="off" type="text" id="searchInput" placeholder="Cari Department..." class="bg-white border-2 border-gray-500 text-gray-900 text-sm px-4 py-2 rounded-lg">
+        </form>
+    </div>
     <a href="{{ route('employees.create') }}" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">
         <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
@@ -66,7 +71,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                     {{ $employee->email }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-6 py-4 whitespace-nowrap telepon">
                     {{ $employee->nomor_telepon }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap tanggal">
@@ -127,6 +132,10 @@
                 month: "long",
                 year: "numeric"
             });
+        });
+
+        document.querySelectorAll(".telepon").forEach(function(tel) {
+            tel.textContent = tel.textContent.replace(/(\d{1,4})(\d{4})(\d)/, "$1-$2-$3");
         });
     });
 </script>

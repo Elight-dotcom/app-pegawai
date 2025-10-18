@@ -1,7 +1,12 @@
 @extends('master')
 @section('title', 'Department')
 @section('content')
-<div class="flex justify-end items-center mb-6">
+<div class="flex justify-between items-center mb-6">
+    <div id="search">
+        <form action="{{ route('departments.index') }}" method="get">
+            <input name='search' autocomplete="off" type="text" id="searchInput" placeholder="Cari Department..." class="bg-white border-2 border-gray-500 text-gray-900 text-sm px-4 py-2 rounded-lg">
+        </form>
+    </div>
     <a href="{{ route('departments.create') }}" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">
         <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
@@ -58,5 +63,8 @@
             @endforeach
         </tbody>
     </table>
+</div>
+<div class="mt-4 mx-2 items-center">
+    {{ $departments->links() }}
 </div>
 @endsection

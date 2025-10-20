@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendEmployeePasswordMail;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
+use App\Models\Salary;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
 {
@@ -127,6 +134,26 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employee->delete();
+
+        return redirect()->route('employees.index');
+    }
+
+    // Making a user
+    public function createUser(Employee $employee)
+    {
+        if (User::where('email', $employee->email)->exists()) {
+            return back()->with('error', 'Email already exists');
+        }
+
+        $password = Str::random(8);
+
+        User::create([
+            'name' => $employee->nama_lengkap,
+            'email' => $employee->email,
+            'password' => Hash::make($password),
+        ]);
+
+        Mail::to($employee->email)->send(new SendEmployeePasswordMail($employee, $password));
 
         return redirect()->route('employees.index');
     }

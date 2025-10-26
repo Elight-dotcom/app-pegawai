@@ -4,12 +4,6 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Tambah Salary</h1>
-        <a href="{{ route('salaries.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 w-full sm:w-auto">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
-            </svg>
-            Kembali
-        </a>
     </div>
 
     <!-- Form Card -->

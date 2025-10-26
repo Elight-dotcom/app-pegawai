@@ -76,7 +76,7 @@
 
                 <!-- Status -->
                 <div class="space-y-2">
-                    <label for="status" class="block text-sm font-medium text-gray-700">
+                    <label for="status_absensi" class="block text-sm font-medium text-gray-700">
                         Status <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
@@ -85,14 +85,14 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z" />
                             </svg>
                         </div>
-                        <select id="status"
-                            name="status"
+                        <select id="status_absensi"
+                            name="status_absensi"
                             class="w-full pl-10 pr-10 py-2.5 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent appearance-none @error('bulan') border-red-500 @enderror">
                             <option value="" disabled selected>Pilih Status</option>
-                            <option value="hadir" {{ old('status') == 'hadir' ? 'selected' : '' }}>Hadir</option>
-                            <option value="izin" {{ old('status') == 'izin' ? 'selected' : '' }}>Izin</option>
-                            <option value="sakit" {{ old('status') == 'sakit' ? 'selected' : '' }}>Sakit</option>
-                            <option value="alpha" {{ old('status') == 'alpha' ? 'selected' : '' }}>Alpha</option>
+                            <option value="hadir" {{ old('status_absensi') == 'hadir' ? 'selected' : '' }}>Hadir</option>
+                            <option value="izin" {{ old('status_absensi') == 'izin' ? 'selected' : '' }}>Izin</option>
+                            <option value="sakit" {{ old('status_absensi') == 'sakit' ? 'selected' : '' }}>Sakit</option>
+                            <option value="alpha" {{ old('status_absensi') == 'alpha' ? 'selected' : '' }}>Alpha</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

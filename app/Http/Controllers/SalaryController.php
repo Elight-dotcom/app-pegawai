@@ -11,9 +11,12 @@ class SalaryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $salaries = Salary::with('employee')->paginate(5);
+        $search = $request->query('search');
+        $salaries = Salary::with('employee')->whereHas('employee', function ($query) use ($search) {
+            $query->where('nama_lengkap', 'like', '%' . $search . '%');
+        })->paginate(5);
 
         return view('salaries.index', compact('salaries'));
     }

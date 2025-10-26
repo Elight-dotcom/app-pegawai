@@ -74,10 +74,20 @@ class AttendanceController extends Controller
         return back()->with('success', 'Absensi keluar berhasil.');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $attendances = Attendance::with('karyawan')->paginate(5);
+        $search = $request->query('search');
+        $attendances = Attendance::with('karyawan')->whereHas('karyawan', function ($query) use ($search) {
+            $query->where('nama_lengkap', 'like', '%' . $search . '%');
+        })->paginate(5);
+
         return view('attendances.index', compact('attendances'));
+    }
+
+    public function show(string $id)
+    {
+        $attendance = Attendance::with('karyawan')->findOrFail($id);
+        return view('attendances.show', compact('attendance'));
     }
 
     public function create()
@@ -109,10 +119,23 @@ class AttendanceController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $attendance = Attendance::find($id);
-        $attendance->update([
-            'status_absensi' => $request->status_absensi
+        $request->validate([
+            'karyawan_id' => 'required',
+            'tanggal' => 'required',
+            'waktu_masuk' => 'required',
+            'waktu_keluar' => 'required',
+            'status_absensi' => 'required',
         ]);
+
+        $attendance = Attendance::findOrFail($id);
+        $attendance->update($request->all());
+        return redirect()->route('attendances.index');
+    }
+
+    public function destroy(string $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->delete();
         return redirect()->route('attendances.index');
     }
 }

@@ -14,9 +14,18 @@ class SalaryController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $salaries = Salary::with('employee')->whereHas('employee', function ($query) use ($search) {
-            $query->where('nama_lengkap', 'like', '%' . $search . '%');
-        })->paginate(5);
+        $bulan = $request->query('bulan');
+
+        $salaries = Salary::with('employee')
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('employee', function ($query) use ($search) {
+                    $query->where('nama_lengkap', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($bulan, function ($query) use ($bulan) {
+                $query->where('bulan', $bulan);
+            })
+            ->paginate(5);
 
         return view('salaries.index', compact('salaries'));
     }
@@ -129,6 +138,9 @@ class SalaryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $salary = Salary::findOrFail($id);
+        $salary->delete();
+
+        return redirect()->route('salaries.index')->with('success', 'Salary deleted successfully.');
     }
 }

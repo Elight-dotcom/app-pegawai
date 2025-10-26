@@ -78,7 +78,7 @@
                     @enderror
 
                     <!-- Link Lupa Password -->
-                    <a href="/forgot" class="absolute right-4 -bottom-6 text-sm text-dark hover:underline">
+                    <a href="{{ route('password.request') }}" class="absolute right-4 -bottom-6 text-sm text-dark hover:underline">
                         Lupa password?
                     </a>
                 </div>

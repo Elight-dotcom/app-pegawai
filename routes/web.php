@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings/change-password', [UserController::class, 'showChangePassword'])->name('user.settings.change-password');
     Route::put('/settings/change-password', [UserController::class, 'changePassword'])->name('user.settings.change-password');
 });
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
 Route::resource('employees', EmployeeController::class);
 Route::post('/employees/{employee}/createUser', [EmployeeController::class, 'createUser'])

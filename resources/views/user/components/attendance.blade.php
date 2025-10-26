@@ -69,8 +69,10 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             @if($attendance->status_absensi == 'hadir')
                             <span class="text-green-600 bg-green-100 px-2 py-1 rounded rounded-full">{{ $attendance->status_absensi }}</span>
-                            @elseif($attendance->status_absensi == 'txerlambat')
+                            @elseif($attendance->status_absensi == 'sakit')
                             <span class="text-yellow-600 bg-yellow-100 px-2 py-1 rounded rounded-full">{{ $attendance->status_absensi }}</span>
+                            @elseif($attendance->status_absensi == 'izin')
+                            <span class="text-blue-600 bg-blue-100 px-2 py-1 rounded rounded-full">{{ $attendance->status_absensi }}</span>
                             @else
                             <span class="text-red-600 bg-red-100 px-2 py-1 rounded rounded-full">{{ $attendance->status_absensi }}</span>
                             @endif

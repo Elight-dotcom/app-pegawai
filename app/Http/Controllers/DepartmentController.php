@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -57,8 +58,9 @@ class DepartmentController extends Controller
     public function show(string $id)
     {
         $department = Department::find($id);
+        $employees = Employee::where('department_id', $id)->paginate(5);
 
-        return view('departments.show', compact('department'));
+        return view('departments.show', compact('department', 'employees'));
     }
 
     /**

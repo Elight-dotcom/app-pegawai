@@ -23,7 +23,7 @@ class EmployeeController extends Controller
     {
         $search = $request->input('search');
 
-        $employees = Employee::with(['jabatan', 'department'])
+        $employees = Employee::with(['jabatan', 'department', 'user'])
             ->when($search, function ($query, $search) {
                 $query->where('nama_lengkap', 'like', '%' . $search . '%');
             })
@@ -66,6 +66,10 @@ class EmployeeController extends Controller
             'date' => 'The :attribute field must be a valid date.',
         ]);
 
+        if (Employee::where('email', $request->email)->exists()) {
+            return back()->withErrors(['email' => 'Email already exists.']);
+        }
+
         Employee::create($request->all());
 
         return redirect()->route('employees.index');
@@ -76,7 +80,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $employee = Employee::find($id)->with(['jabatan', 'department'])->first();
+        $employee = Employee::with(['jabatan', 'department'])->findOrFail($id);
 
         return view('employees.show', compact('employee'));
     }
@@ -133,6 +137,11 @@ class EmployeeController extends Controller
     public function destroy(string $id)
     {
         $employee = Employee::find($id);
+        $user = User::where('email', $employee->email)->first();
+
+        if ($user) {
+            $user->delete();
+        }
         $employee->delete();
 
         return redirect()->route('employees.index');
@@ -147,14 +156,19 @@ class EmployeeController extends Controller
 
         $password = Str::random(8);
 
+        try {
+            Mail::to($employee->email)->send(new SendEmployeePasswordMail($employee, $password));
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
         User::create([
             'name' => $employee->nama_lengkap,
             'email' => $employee->email,
             'password' => Hash::make($password),
         ]);
 
-        Mail::to($employee->email)->send(new SendEmployeePasswordMail($employee, $password));
 
-        return redirect()->route('employees.index');
+        return redirect()->route('employees.index')->with('success', 'User created successfully');
     }
 }

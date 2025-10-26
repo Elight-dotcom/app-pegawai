@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -58,8 +59,9 @@ class PositionController extends Controller
     public function show(string $id)
     {
         $position = Position::find($id);
+        $employees = Employee::where('jabatan_id', $id)->paginate(5);
 
-        return view('positions.show', compact('position'));
+        return view('positions.show', compact('position', 'employees'));
     }
 
     /**
@@ -77,7 +79,19 @@ class PositionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama_jabatan' => 'required|string|max:255',
+            'gaji_pokok' => 'required|numeric',
+        ], [
+            'required' => 'The :attribute field is required.',
+            'max' => 'The :attribute field must not exceed :max characters.',
+            'numeric' => 'The :attribute field must be a number.',
+        ]);
+
+        $position = Position::find($id);
+        $position->update($request->all());
+
+        return redirect()->route('positions.index');
     }
 
     /**

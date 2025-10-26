@@ -13,4 +13,9 @@ class Attendance extends Model
         'waktu_keluar',
         'status_absensi'
     ];
+
+    public function karyawan()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

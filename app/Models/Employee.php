@@ -32,4 +32,9 @@ class Employee extends Model
     {
         return $this->hasMany(Salary::class);
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'email', 'email');
+    }
 }

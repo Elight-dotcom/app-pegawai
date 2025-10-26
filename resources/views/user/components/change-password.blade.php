@@ -12,6 +12,17 @@
         </div>
     </div>
 
+    <!-- Notification -->
+    @if(session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 alert">
+        {{ session('error') }}
+    </div>
+    @elseif(session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 alert">
+        {{ session('success') }}
+    </div>
+    @endif
+
     <!-- Password Section -->
     <div class="bg-white border-2 border-gray-200 rounded-lg shadow-sm overflow-hidden">
         <!-- Header -->
@@ -68,4 +79,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(function() {
+                alert.remove();
+            }, 500);
+        });
+    }, 5000);
+</script>
 @endsection

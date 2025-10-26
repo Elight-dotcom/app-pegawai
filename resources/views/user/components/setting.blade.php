@@ -69,7 +69,7 @@
 
 <!-- Logout Confirmation Modal -->
 <div id="logoutModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-lg bg-white">
+    <div class="relative top-20 mx-auto p-5 border w-80 md:w-96 shadow-lg rounded-lg bg-white">
         <div class="mt-3">
             <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full">
                 <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,11 +103,11 @@
         document.getElementById('logoutModal').classList.remove('hidden');
     }
 
+    // Close modal
     function closeLogoutModal() {
         document.getElementById('logoutModal').classList.add('hidden');
     }
 
-    // Close modal when clicking outside
     document.getElementById('logoutModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeLogoutModal();

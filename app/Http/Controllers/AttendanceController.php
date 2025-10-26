@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -71,5 +72,47 @@ class AttendanceController extends Controller
         $existingAttendance->save();
 
         return back()->with('success', 'Absensi keluar berhasil.');
+    }
+
+    public function index()
+    {
+        $attendances = Attendance::with('karyawan')->paginate(5);
+        return view('attendances.index', compact('attendances'));
+    }
+
+    public function create()
+    {
+        $employees = Employee::all();
+        return view('attendances.create', compact('employees'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'karyawan_id' => 'required',
+            'tanggal' => 'required',
+            'waktu_masuk' => 'required',
+            'waktu_keluar' => 'required',
+            'status_absensi' => 'required',
+        ]);
+
+        Attendance::create($request->all());
+
+        return redirect()->route('attendances.index');
+    }
+
+    public function edit(string $id)
+    {
+        $attendance = Attendance::with('karyawan')->findOrFail($id);
+        return view('attendances.edit', compact('attendance'));
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $attendance = Attendance::find($id);
+        $attendance->update([
+            'status_absensi' => $request->status_absensi
+        ]);
+        return redirect()->route('attendances.index');
     }
 }

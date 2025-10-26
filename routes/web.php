@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard.index');
 
-    Route::get('/attendances', [AttendanceController::class, 'showAttendance'])->name('user.attendances.index');
+    Route::get('/attendances/index', [AttendanceController::class, 'showAttendance'])->name('user.attendances.index');
     Route::post('/attendances/masuk', [AttendanceController::class, 'checkIn'])->name('user.attendances.masuk');
     Route::post('/attendances/keluar', [AttendanceController::class, 'checkOut'])->name('user.attendances.keluar');
 
@@ -31,3 +32,5 @@ Route::post('/employees/{employee}/createUser', [EmployeeController::class, 'cre
 
 Route::resource('departments', DepartmentController::class);
 Route::resource('positions', PositionController::class);
+Route::resource('salaries', SalaryController::class);
+Route::resource('attendances', AttendanceController::class);

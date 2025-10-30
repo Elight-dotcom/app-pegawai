@@ -28,10 +28,18 @@ class AuthController extends Controller
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
-            $employee = Employee::where('email', $validated['email'])->first();
+            $role = Auth::user()->role;
+            if ($role == 'admin') {
+                return redirect()->route('employees.index');
+            } else if ($role == 'user') {
+                $employee = Employee::where('email', $validated['email'])->first();
+                if ($employee) {
+                    session(['employee_id' => $employee->id]);
+                }
 
-            if ($employee) {
-                session(['employee_id' => $employee->id]);
+                return redirect()->route('user.dashboard.index');
+            } else {
+                return redirect()->route('show.login');
             }
 
             return redirect()->route('user.dashboard.index');

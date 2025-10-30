@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\SendForgotPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
@@ -55,20 +56,16 @@ class ForgotPasswordController extends Controller
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) use ($request) {
+            function ($user) use ($request) {
                 $user->forceFill([
-                    'password' => bcrypt($password)
+                    'password' => Hash::make($request->password),
+                    'remember_token' => null,
                 ])->save();
-
-                $user->setRememberToken($request->token);
             }
         );
 
-        if ($status == Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('status', __($status));
-        } else {
-            return back()->withInput($request->only('email'))
-                ->withErrors(['email' => __($status)]);
-        }
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('show.login')->with('success', 'Password berhasil direset. Silakan login kembali.')
+            : back()->withErrors(['email' => __($status)]);
     }
 }

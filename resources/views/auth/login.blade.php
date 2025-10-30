@@ -17,6 +17,17 @@
                 <p class="text-gray-600 mb-8">Mari ciptakan lingkungan kerja yang indah!</p>
             </div>
 
+            <!-- Notification -->
+            @if($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 alert">
+                {{ $errors->first() }}
+            </div>
+            @elseif(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 alert">
+                {{ session('success') }}
+            </div>
+            @endif
+
             <form action="{{ route('login') }}" method="post" class="space-y-2">
                 @csrf
                 <div class="relative group pt-3">
@@ -31,9 +42,6 @@
                         class="absolute left-4 top-7 bg-white/95 border-white/95 rounded-full px-2 text-gray-500 text-sm transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-6 peer-focus:top-1 peer-focus:text-sm peer-focus:text-black peer-valid:top-1 peer-valid:text-sm">
                         Email
                     </label>
-                    @error('username')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <div class="relative group pt-3">
@@ -69,13 +77,6 @@
                             </svg>
                         </div>
                     </button>
-                    @error('password')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-
-                    @error('incorrect')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
 
                     <!-- Link Lupa Password -->
                     <a href="{{ route('password.request') }}" class="absolute right-4 -bottom-6 text-sm text-dark hover:underline">

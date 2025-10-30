@@ -1,57 +1,67 @@
 @extends('master')
 @section('title', 'Salary')
 @section('content')
-<div class="flex justify-between items-center mb-6">
-    <div id="search">
-        <form action="{{ route('salaries.index') }}" method="get">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input name='search' autocomplete="off" type="text" id="searchInput" placeholder="Cari Employee..." class="bg-white border-2 border-gray-500 text-gray-900 text-sm px-4 py-2 rounded-lg">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <select id="bulan"
-                        name="bulan"
-                        class="w-full pl-10 pr-10 py-2.5 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent appearance-none @error('bulan') border-red-500 @enderror">
-                        <option value="" selected>Pilih Bulan</option>
-                        <option value="Januari" {{ old('bulan') == 'Januari' ? 'selected' : '' }}>Januari</option>
-                        <option value="Februari" {{ old('bulan') == 'Februari' ? 'selected' : '' }}>Februari</option>
-                        <option value="Maret" {{ old('bulan') == 'Maret' ? 'selected' : '' }}>Maret</option>
-                        <option value="April" {{ old('bulan') == 'April' ? 'selected' : '' }}>April</option>
-                        <option value="Mei" {{ old('bulan') == 'Mei' ? 'selected' : '' }}>Mei</option>
-                        <option value="Juni" {{ old('bulan') == 'Juni' ? 'selected' : '' }}>Juni</option>
-                        <option value="Juli" {{ old('bulan') == 'Juli' ? 'selected' : '' }}>Juli</option>
-                        <option value="Agustus" {{ old('bulan') == 'Agustus' ? 'selected' : '' }}>Agustus</option>
-                        <option value="September" {{ old('bulan') == 'September' ? 'selected' : '' }}>September</option>
-                        <option value="Oktober" {{ old('bulan') == 'Oktober' ? 'selected' : '' }}>Oktober</option>
-                        <option value="November" {{ old('bulan') == 'November' ? 'selected' : '' }}>November</option>
-                        <option value="Desember" {{ old('bulan') == 'Desember' ? 'selected' : '' }}>Desember</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </div>
-                </div>
-                <button type="submit" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors items-center cursor-pointer">
-                    <svg class="w-5 h-5  mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+<div class="flex flex-wrap justify-between items-end gap-6 mb-8">
+    <!-- Form Search -->
+    <form action="{{ route('salaries.index') }}" method="get"
+        class="flex flex-wrap items-end gap-3">
+
+        <!-- Search -->
+        <div>
+            <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari Employee</label>
+            <input name="search" autocomplete="off" type="text" id="search"
+                placeholder="Cari Employee..."
+                value="{{ request('search') }}"
+                class="bg-white border border-gray-300 text-gray-900 text-sm px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-all duration-200 w-56">
+        </div>
+
+        <!-- Pilih Bulan -->
+        <div class="relative">
+            <label for="bulan" class="block text-sm font-medium text-gray-700 mb-1">Pilih Bulan</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    Cari
-                </button>
+                </div>
+                <select id="bulan" name="bulan"
+                    class="bg-white w-48 pl-10 pr-10 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 appearance-none transition-all duration-200">
+                    <option value="">Pilih Bulan</option>
+                    @foreach(['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'] as $b)
+                    <option value="{{ $b }}" {{ request('bulan') == $b ? 'selected' : '' }}>{{ $b }}</option>
+                    @endforeach
+                </select>
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
             </div>
-        </form>
-    </div>
-    <a href="{{ route('salaries.create') }}" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">
-        <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+        </div>
+
+        <!-- Tombol Filter -->
+        <div class="flex items-end gap-2">
+            <button type="submit"
+                class="bg-gray-800 hover:bg-gray-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-200 cursor-pointer">
+                🔍 Filter
+            </button>
+        </div>
+    </form>
+
+
+    <!-- Tombol Tambah Salary -->
+    <a href="{{ route('salaries.create') }}"
+        class="flex items-center bg-gradient-to-r from-gray-800 to-gray-600 hover:from-gray-700 hover:to-gray-500 text-white font-semibold px-5 py-3 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
         Tambah Salary
     </a>
 </div>
-<div class="bg-white rounded-lg shadow-md overflow-hidden">
+
+<div class="bg-white rounded-lg shadow-md overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-800">
             <tr>

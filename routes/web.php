@@ -6,15 +6,22 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// User Site
+// Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::middleware('auth')->group(function () {
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
+
+// User
+Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard.index');
 
     Route::get('/attendances/index', [AttendanceController::class, 'showAttendance'])->name('user.attendances.index');
@@ -26,16 +33,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings/change-password', [UserController::class, 'showChangePassword'])->name('user.settings.change-password');
     Route::put('/settings/change-password', [UserController::class, 'changePassword'])->name('user.settings.change-password');
 });
-Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
 
-Route::resource('employees', EmployeeController::class);
-Route::post('/employees/{employee}/createUser', [EmployeeController::class, 'createUser'])
-    ->name('employees.createUser');
+// Admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('employees', EmployeeController::class);
+    Route::post('/employees/{employee}/createUser', [EmployeeController::class, 'createUser'])
+        ->name('employees.createUser');
 
-Route::resource('departments', DepartmentController::class);
-Route::resource('positions', PositionController::class);
-Route::resource('salaries', SalaryController::class);
-Route::resource('attendances', AttendanceController::class);
+    Route::resource('departments', DepartmentController::class);
+    Route::resource('positions', PositionController::class);
+    Route::resource('salaries', SalaryController::class);
+    Route::resource('attendances', AttendanceController::class);
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/download', [ReportController::class, 'downloadExcel'])->name('reports.download');
+});

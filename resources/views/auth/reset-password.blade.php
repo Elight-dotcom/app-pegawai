@@ -18,9 +18,9 @@
             </div>
 
             <!-- Notification -->
-            @if(session('error'))
+            @if($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 alert">
-                {{ session('error') }}
+                {{ $errors->first() }}
             </div>
             @elseif(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 alert">
@@ -28,8 +28,9 @@
             </div>
             @endif
 
-            <form action="{{ route('password.email') }}" method="post" class="space-y-2">
+            <form action="{{ route('password.update') }}" method="post" class="space-y-2">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
                 <div class="relative group pt-3">
                     <input
                         type="text"
@@ -43,9 +44,6 @@
                         class="absolute left-4 bg-white/95 border-white/95 rounded-full px-2 text-gray-500 text-sm transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-6 top-1 peer-focus:text-sm peer-focus:text-black peer-valid:top-1 peer-valid:text-sm">
                         Email
                     </label>
-                    @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Password Baru -->

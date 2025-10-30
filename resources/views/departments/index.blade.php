@@ -1,20 +1,41 @@
 @extends('master')
 @section('title', 'Department')
 @section('content')
-<div class="flex justify-between items-center mb-6">
-    <div id="search">
-        <form action="{{ route('departments.index') }}" method="get">
-            <input name='search' autocomplete="off" type="text" id="searchInput" placeholder="Cari Department..." class="bg-white border-2 border-gray-500 text-gray-900 text-sm px-4 py-2 rounded-lg">
-        </form>
-    </div>
-    <a href="{{ route('departments.create') }}" class="bg-gray-800 flex text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors">
-        <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5" />
+<div class="flex flex-wrap justify-between items-end gap-6 mb-8">
+    <!-- Form Search -->
+    <form action="{{ route('departments.index') }}" method="get"
+        class="flex flex-wrap items-end gap-3">
+
+        <!-- Search -->
+        <div>
+            <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Cari Department</label>
+            <input name="search" autocomplete="off" type="text" id="search"
+                placeholder="Cari Department..."
+                value="{{ request('search') }}"
+                class="bg-white border border-gray-300 text-gray-900 text-sm px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-all duration-200 w-56">
+        </div>
+
+        <!-- Tombol Filter -->
+        <div class="flex items-end gap-2">
+            <button type="submit"
+                class="bg-gray-800 hover:bg-gray-600 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-md transition-all duration-200 cursor-pointer">
+                🔍 Filter
+            </button>
+        </div>
+    </form>
+
+
+    <!-- Tombol Tambah Department -->
+    <a href="{{ route('departments.create') }}"
+        class="flex items-center bg-gradient-to-r from-gray-800 to-gray-600 hover:from-gray-700 hover:to-gray-500 text-white font-semibold px-5 py-3 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
         Tambah Department
     </a>
 </div>
-<div class="bg-white rounded-lg shadow-md overflow-hidden">
+
+<div class="bg-white rounded-lg shadow-md overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-800 text-white">
             <tr>

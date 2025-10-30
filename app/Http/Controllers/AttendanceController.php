@@ -77,9 +77,26 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $attendances = Attendance::with('karyawan')->whereHas('karyawan', function ($query) use ($search) {
-            $query->where('nama_lengkap', 'like', '%' . $search . '%');
-        })->paginate(5);
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        $attendances = Attendance::with('karyawan')
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('karyawan', function ($q) use ($search) {
+                    $q->where('nama_lengkap', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('tanggal', [$startDate, $endDate]);
+            })
+            ->when($startDate && !$endDate, function ($query) use ($startDate) {
+                $query->whereDate('tanggal', '>=', $startDate);
+            })
+            ->when(!$startDate && $endDate, function ($query) use ($endDate) {
+                $query->whereDate('tanggal', '<=', $endDate);
+            })
+            ->orderBy('tanggal', 'desc')
+            ->paginate(5);
 
         return view('attendances.index', compact('attendances'));
     }

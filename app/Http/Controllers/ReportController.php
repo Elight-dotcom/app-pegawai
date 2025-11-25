@@ -64,7 +64,6 @@ class ReportController extends Controller
         $month = request('month');
         $departmentId = request('department_id');
 
-        // Get data based on filters (same logic as index)
         $employees = Employee::with(['department', 'jabatan'])
             ->when($departmentId, function ($query) use ($departmentId) {
                 return $query->where('department_id', $departmentId);

@@ -17,11 +17,11 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('show.login');
+            return response()->view('errors.403', [], 403);
         }
 
         if (!in_array(Auth::user()->role, $roles)) {
-            abort(403, 'Unauthorized');
+            return response()->view('errors.403', [], 403);
         }
 
         return $next($request);

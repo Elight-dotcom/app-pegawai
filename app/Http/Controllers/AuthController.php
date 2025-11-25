@@ -37,12 +37,10 @@ class AuthController extends Controller
                     session(['employee_id' => $employee->id]);
                 }
 
-                return redirect()->route('user.dashboard.index');
+                return redirect()->route('user.attendances.index');
             } else {
                 return redirect()->route('show.login');
             }
-
-            return redirect()->route('user.dashboard.index');
         }
 
         throw ValidationException::withMessages([

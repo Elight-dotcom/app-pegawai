@@ -27,7 +27,7 @@ class SalaryController extends Controller
             })
             ->paginate(5);
 
-        return view('salaries.index', compact('salaries'));
+        return view('admin.salaries.index', compact('salaries'));
     }
 
     /**
@@ -36,7 +36,7 @@ class SalaryController extends Controller
     public function create()
     {
         $employees = Employee::with('jabatan')->get();
-        return view('salaries.create', compact('employees'));
+        return view('admin.salaries.create', compact('employees'));
     }
 
     /**
@@ -80,7 +80,7 @@ class SalaryController extends Controller
     public function show(string $id)
     {
         $salary = Salary::with('employee')->findOrFail($id);
-        return view('salaries.show', compact('salary'));
+        return view('admin.salaries.show', compact('salary'));
     }
 
     /**
@@ -90,7 +90,7 @@ class SalaryController extends Controller
     {
         $salary = Salary::with('employee')->findOrFail($id);
 
-        return view('salaries.edit', compact('salary'));
+        return view('admin.salaries.edit', compact('salary'));
     }
 
     /**

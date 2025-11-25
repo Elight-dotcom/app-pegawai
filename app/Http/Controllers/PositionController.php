@@ -23,7 +23,7 @@ class PositionController extends Controller
 
         $positions->appends(['search' => $search]);
 
-        return view('positions.index', compact('positions'));
+        return view('admin.positions.index', compact('positions'));
     }
 
     /**
@@ -31,7 +31,7 @@ class PositionController extends Controller
      */
     public function create()
     {
-        return view('positions.create');
+        return view('admin.positions.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class PositionController extends Controller
         $position = Position::find($id);
         $employees = Employee::where('jabatan_id', $id)->paginate(5);
 
-        return view('positions.show', compact('position', 'employees'));
+        return view('admin.positions.show', compact('position', 'employees'));
     }
 
     /**
@@ -71,7 +71,7 @@ class PositionController extends Controller
     {
         $position = Position::find($id);
 
-        return view('positions.edit', compact('position'));
+        return view('admin.positions.edit', compact('position'));
     }
 
     /**

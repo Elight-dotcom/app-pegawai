@@ -2,17 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendEmployeePasswordMail;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function dashboard()
+    public function createUser(Employee $employee)
     {
-        return view('user.components.dashboard');
+        if (User::where('email', $employee->email)->exists()) {
+            return back()->with('error', 'Email already exists');
+        }
+
+        $password = Str::random(8);
+
+        try {
+            Mail::to($employee->email)->send(new SendEmployeePasswordMail($employee, $password));
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        User::create([
+            'name' => $employee->nama_lengkap,
+            'email' => $employee->email,
+            'password' => Hash::make($password),
+        ]);
+
+
+        return redirect()->route('admin.employees.index')->with('success', 'User created successfully');
     }
 
     public function showSetting()

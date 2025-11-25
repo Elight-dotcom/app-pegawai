@@ -6,11 +6,9 @@ use App\Mail\SendEmployeePasswordMail;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
-use App\Models\Salary;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -31,7 +29,7 @@ class EmployeeController extends Controller
 
         $employees->appends(['search' => $search]);
 
-        return view('employees.index', compact('employees'));
+        return view('admin.employees.index', compact('employees'));
     }
 
     /**
@@ -41,7 +39,7 @@ class EmployeeController extends Controller
     {
         $departments = Department::all();
         $positions = Position::all();
-        return view('employees.create', compact('departments', 'positions'));
+        return view('admin.employees.create', compact('departments', 'positions'));
     }
 
     /**
@@ -82,7 +80,7 @@ class EmployeeController extends Controller
     {
         $employee = Employee::with(['jabatan', 'department'])->findOrFail($id);
 
-        return view('employees.show', compact('employee'));
+        return view('admin.employees.show', compact('employee'));
     }
 
     /**
@@ -94,7 +92,7 @@ class EmployeeController extends Controller
         $departments = Department::all();
         $positions = Position::all();
 
-        return view('employees.edit', compact('employee', 'departments', 'positions'));
+        return view('admin.employees.edit', compact('employee', 'departments', 'positions'));
     }
 
     /**
@@ -145,30 +143,5 @@ class EmployeeController extends Controller
         $employee->delete();
 
         return redirect()->route('employees.index');
-    }
-
-    // Making a user
-    public function createUser(Employee $employee)
-    {
-        if (User::where('email', $employee->email)->exists()) {
-            return back()->with('error', 'Email already exists');
-        }
-
-        $password = Str::random(8);
-
-        try {
-            Mail::to($employee->email)->send(new SendEmployeePasswordMail($employee, $password));
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-
-        User::create([
-            'name' => $employee->nama_lengkap,
-            'email' => $employee->email,
-            'password' => Hash::make($password),
-        ]);
-
-
-        return redirect()->route('employees.index')->with('success', 'User created successfully');
     }
 }

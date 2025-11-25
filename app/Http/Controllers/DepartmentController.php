@@ -23,7 +23,7 @@ class DepartmentController extends Controller
 
         $departments->appends(['search' => $search]);
 
-        return view('departments.index', compact('departments'));
+        return view('admin.departments.index', compact('departments'));
     }
 
 
@@ -32,7 +32,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        return view('departments.create');
+        return view('admin.departments.create');
     }
 
     /**
@@ -60,7 +60,7 @@ class DepartmentController extends Controller
         $department = Department::find($id);
         $employees = Employee::where('department_id', $id)->paginate(5);
 
-        return view('departments.show', compact('department', 'employees'));
+        return view('admin.departments.show', compact('department', 'employees'));
     }
 
     /**
@@ -70,7 +70,7 @@ class DepartmentController extends Controller
     {
         $department = Department::find($id);
 
-        return view('departments.edit', compact('department'));
+        return view('admin.departments.edit', compact('department'));
     }
 
     /**
